@@ -9,7 +9,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A2D17E5-BDE6-4668-AB85-337DC5F178C0}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizableAndHidableSample", "Samples\ResizableAndHidableSample\ResizableAndHidableSample.csproj", "{20740B39-E9D2-4577-B5FD-6EAB802F3126}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,8 +28,13 @@ Global
 		{1118E511-973B-43EB-8CCC-E2909DD66396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1118E511-973B-43EB-8CCC-E2909DD66396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1118E511-973B-43EB-8CCC-E2909DD66396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20740B39-E9D2-4577-B5FD-6EAB802F3126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20740B39-E9D2-4577-B5FD-6EAB802F3126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20740B39-E9D2-4577-B5FD-6EAB802F3126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20740B39-E9D2-4577-B5FD-6EAB802F3126}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1118E511-973B-43EB-8CCC-E2909DD66396} = {99E0A2B2-38DB-4596-9077-9D3DFE0255AC}
+		{20740B39-E9D2-4577-B5FD-6EAB802F3126} = {99E0A2B2-38DB-4596-9077-9D3DFE0255AC}
 	EndGlobalSection
 EndGlobal

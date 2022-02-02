@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rootns="clr-namespace:NonFullScreenSample"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="NonFullScreenSample.MainWindow"
+        Title="ResizableAndHidableSample">
+    <Design.DataContext>
+        <rootns:MainWindowViewModel></rootns:MainWindowViewModel>
+    </Design.DataContext>
+    <Grid ColumnDefinitions="400,Auto,*">
+        <Panel Grid.Column="0">
+            <Button HorizontalAlignment="Center" Click="ShowHideControl">Show/Hide OpenGL control</Button>
+        </Panel>
+        <GridSplitter
+            Grid.Column="1"
+            Width="2"
+            ResizeDirection="Columns"
+            Background="#ccc" />
+        <TabControl Grid.Column="2">
+            <TabItem Header="OpenGL control">
+                <Panel IsVisible="{Binding ShowOpenGlControl}">
+                    <rootns:CubeRenderingTkOpenGlControl Focusable="True" />
+                </Panel>
+            </TabItem>
+            <TabItem Header="Not the OpenGL control">
+                <Label>Hi</Label>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
