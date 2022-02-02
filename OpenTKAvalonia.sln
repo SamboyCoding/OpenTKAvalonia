@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKAvalonia", "OpenTKAvalonia\OpenTKAvalonia.csproj", "{513A95EA-F8DF-4AE6-9252-1A327588366F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{99E0A2B2-38DB-4596-9077-9D3DFE0255AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicCubeSample", "Samples\BasicCubeSample\BasicCubeSample.csproj", "{1118E511-973B-43EB-8CCC-E2909DD66396}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A2D17E5-BDE6-4668-AB85-337DC5F178C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{513A95EA-F8DF-4AE6-9252-1A327588366F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513A95EA-F8DF-4AE6-9252-1A327588366F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513A95EA-F8DF-4AE6-9252-1A327588366F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513A95EA-F8DF-4AE6-9252-1A327588366F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1118E511-973B-43EB-8CCC-E2909DD66396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1118E511-973B-43EB-8CCC-E2909DD66396}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1118E511-973B-43EB-8CCC-E2909DD66396}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1118E511-973B-43EB-8CCC-E2909DD66396}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1118E511-973B-43EB-8CCC-E2909DD66396} = {99E0A2B2-38DB-4596-9077-9D3DFE0255AC}
+	EndGlobalSection
+EndGlobal
