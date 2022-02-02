@@ -19,3 +19,9 @@ public static AppBuilder BuildAvaloniaApp()
                 .LogToTrace();
 ```
 Without this, your control simply will never receive any of the OpenTK events (Initialization, Teardown, and Render).
+
+The library itself is netstandard2.1, because that's what OpenTK requires, and the sample is net6.0.
+
+## Demonstration
+
+![Demonstration image](https://i.imgur.com/zMXVENf.png)
