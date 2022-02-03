@@ -24,4 +24,4 @@ The library itself is netstandard2.1, because that's what OpenTK requires, and t
 
 ## Demonstration
 
-![Demonstration image](https://i.imgur.com/zMXVENf.png)
+![Demonstration image](https://i.imgur.com/mAElUU9.png)
