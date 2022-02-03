@@ -1,4 +1,5 @@
-﻿using Avalonia.Input;
+﻿using System.Reflection;
+using Avalonia.Input;
 using Avalonia.Input.Raw;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
@@ -16,6 +17,7 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase
     public AvaloniaKeyboardState KeyboardState = new();
 
     private AvaloniaTkContext? _avaloniaTkContext;
+    private FieldInfo _depthBufferField = typeof(OpenGlControlBase).GetField("_depthBuffer", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new("Unable to find _depthBuffer field");
 
     public BaseTkOpenGlControl()
     {
@@ -74,7 +76,7 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase
         var oldViewport = new int[4];
         GL.GetInteger(GetPName.Viewport, oldViewport);
         GL.Viewport(0, 0, (int) Bounds.Width, (int) Bounds.Height);
-        
+
         //Tell our subclass to render
         OpenTkRender();
         
@@ -100,7 +102,14 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase
     }
 
     //Simply call the subclass' teardown function
-    protected sealed override void OnOpenGlDeinit(GlInterface gl, int fb) => OpenTkTeardown();  
+    protected sealed override void OnOpenGlDeinit(GlInterface gl, int fb)
+    {
+        OpenTkTeardown();
+        
+        //Workaround an avalonia issue where the depth buffer ID is not cleared
+        //which causes depth problems (see issue #1 on this repo)
+        _depthBufferField.SetValue(this, 0);
+    }
 
     /// <summary>
     /// Handles avalonia key down events, and sets the keyboard state
