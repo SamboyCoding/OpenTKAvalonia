@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net7</TargetFramework>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
@@ -17,11 +17,12 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.12" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12" />
-        <PackageReference Include="OpenTK" Version="4.6.7" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.4" />
+        <PackageReference Include="Avalonia" Version="11.0.4" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.4" />
+        <PackageReference Include="OpenTK" Version="4.8.0" />
+        <PackageReference Include="OpenTK.Graphics" Version="4.8.0" />
         <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
     </ItemGroup>
     <ItemGroup>

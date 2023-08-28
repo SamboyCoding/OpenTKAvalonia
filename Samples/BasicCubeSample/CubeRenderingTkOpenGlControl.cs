@@ -82,7 +82,7 @@ namespace BasicCubeSample
             GL.EnableVertexAttribArray(_shader.GetAttribLocation("aPosition"));
 
             //Configure texture coordinate structure
-            var texCoordLocation = _shader.GetAttribLocation("aTexCoord");
+            int texCoordLocation = _shader.GetAttribLocation("aTexCoord");
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(texCoordLocation);
 
@@ -131,12 +131,14 @@ namespace BasicCubeSample
             _shader?.Dispose();
             GL.UseProgram(0);
             _brickTexture.Dispose();
+            
+            Console.WriteLine("UI: OpenTK Teardown");
         }
 
         //Demonstrating use of the Avalonia keyboard state provided by OpenTKAvalonia to control the camera 
         private void DoUpdate()
         {
-            var effectiveSpeed = Speed;
+            float effectiveSpeed = Speed;
             
             if (KeyboardState.IsKeyDown(Key.LeftShift))
             {
@@ -182,10 +184,10 @@ namespace BasicCubeSample
             _brickTexture.Use(TextureUnit.Texture2);
 
             //3d projection matrices
-            var model = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_modelRotationDegrees));
+            Matrix4 model = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_modelRotationDegrees));
             // model *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-30));
-            var view = Matrix4.LookAt(_cameraPosition, _cameraPosition + _cameraFront, _up);
-            var projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(_fov), (float) (Bounds.Width / Bounds.Height), 0.1f, 100.0f);
+            Matrix4 view = Matrix4.LookAt(_cameraPosition, _cameraPosition + _cameraFront, _up);
+            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(_fov), (float) (Bounds.Width / Bounds.Height), 0.1f, 100.0f);
 
             _shader.SetMatrix4("model", model);
             _shader.SetMatrix4("view", view);
@@ -200,35 +202,36 @@ namespace BasicCubeSample
         
         //The following four methods show how to use the Avalonia events for pointer and scroll input to allow moving the camera by clicking-and-dragging and scrolling to zoom
         //It would appear pointer capture doesn't work, at least not as I would expect it to, which is unfortunate
+        
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
             _isDragging = true;
             e.Pointer.Capture(this);
             _lastPos = e.GetPosition(null);
         }
-
+        
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
         {
             _isDragging = false;
         }
-
+        
         protected override void OnPointerMoved(PointerEventArgs e)
         {
             if (!_isDragging)
                 return;
-
+        
             //Work out the change in position
-            var pos = e.GetPosition(null);
-
-            var deltaX = pos.X - _lastPos.X;
-            var deltaY = pos.Y - _lastPos.Y;
+            Point pos = e.GetPosition(null);
+        
+            double deltaX = pos.X - _lastPos.X;
+            double deltaY = pos.Y - _lastPos.Y;
             _lastPos = pos;
-
+        
             const float sensitivity = 0.05f;
-
+        
             //Yaw is a function of the change in X
             _yaw -= deltaX * sensitivity;
-
+        
             //Clamp pitch
             if (_pitch > 89.0f)
             {
@@ -243,14 +246,14 @@ namespace BasicCubeSample
                 //Pitch is a function of the change in Y
                 _pitch += deltaY * sensitivity;
             }
-
+        
             //Recalculate the camera front vector
             UpdateCameraFront();
         }
-
+        
         protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
         {
-            var scrollDelta = e.Delta.Y; //negative is out, positive is in
+            double scrollDelta = e.Delta.Y; //negative is out, positive is in
             _fov -= (float) scrollDelta; //therefore we subtract, because zooming in should decrease the fov
         }
 

@@ -18,7 +18,6 @@ namespace NonFullScreenSample
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .With(new Win32PlatformOptions() {UseWgl = true})
                 .LogToTrace();
     }
 }

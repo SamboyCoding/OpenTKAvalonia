@@ -1,14 +1,14 @@
-﻿using System.Reflection;
+﻿using Avalonia;
 using Avalonia.Input;
-using Avalonia.Input.Raw;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
+using Avalonia.Rendering;
 using Avalonia.Threading;
 using OpenTK.Graphics.OpenGL;
 
 namespace OpenTKAvalonia;
 
-public abstract class BaseTkOpenGlControl : OpenGlControlBase
+public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
 {
     /// <summary>
     /// KeyboardState provides an easy-to-use, stateful wrapper around Avalonia's Keyboard events, as OpenTK keyboard states are not handled.
@@ -17,23 +17,8 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase
     public AvaloniaKeyboardState KeyboardState = new();
 
     private AvaloniaTkContext? _avaloniaTkContext;
-    private FieldInfo _depthBufferField = typeof(OpenGlControlBase).GetField("_depthBuffer", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new("Unable to find _depthBuffer field");
 
-    public BaseTkOpenGlControl()
-    {
-        //Hook all Avalonia keyboard events to allow us to store Keyboard State 
-        InputManager.Instance!.PreProcess.Subscribe(e =>
-        {
-            if (e is not RawKeyEventArgs keyEvent)
-                return;
-
-            if (keyEvent.Type == RawKeyEventType.KeyDown)
-                KeyPressed(keyEvent);
-            else
-                KeyReleased(keyEvent);
-        });
-    }
-
+    private bool _isInitialized;
 
     /// <summary>
     /// OpenTkRender is called once a frame to draw to the control.
@@ -73,65 +58,66 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase
         //Set up the aspect ratio so shapes aren't stretched.
         //As avalonia is using this opengl instance internally to render the entire window, stuff gets messy, so we workaround that here
         //to provide a good experience to the user.
-        var oldViewport = new int[4];
-        GL.GetInteger(GetPName.Viewport, oldViewport);
+        // Not sure if this is needed anymore, seems to work fine without it
+        // int[] oldViewport = new int[4];
+        // GL.GetInteger(GetPName.Viewport, oldViewport);
         GL.Viewport(0, 0, (int) Bounds.Width, (int) Bounds.Height);
 
         //Tell our subclass to render
         OpenTkRender();
         
         //Reset viewport after our fix above
-        GL.Viewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
+        // GL.Viewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
         
         //Workaround for avalonia issue #6488, set active texture back to 0
-        GL.ActiveTexture(TextureUnit.Texture0);
+        // same thing i dont think this is needed anymore
+        // GL.ActiveTexture(TextureUnit.Texture0);
 
         //Schedule next UI update with avalonia
-        Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Background);
+        Dispatcher.UIThread.Post(RequestNextFrameRendering, DispatcherPriority.Background);
     }
 
 
-    protected sealed override void OnOpenGlInit(GlInterface gl, int fb)
+    protected sealed override void OnOpenGlInit(GlInterface gl)
     {
+        if (_isInitialized)
+        {
+            // workaround for avalonia issue #12680, so we dont initialize twice
+            Console.WriteLine("Calling OnOpenGlInit even tho its already initialized");
+            return;
+        }
         //Initialize the OpenTK<->Avalonia Bridge
         _avaloniaTkContext = new(gl);
         GL.LoadBindings(_avaloniaTkContext);
 
         //Invoke the subclass' init function
         OpenTkInit();
+        _isInitialized = true;
     }
 
     //Simply call the subclass' teardown function
-    protected sealed override void OnOpenGlDeinit(GlInterface gl, int fb)
+    protected sealed override void OnOpenGlDeinit(GlInterface gl)
     {
         OpenTkTeardown();
-        
-        //Workaround an avalonia issue where the depth buffer ID is not cleared
-        //which causes depth problems (see issue #1 on this repo)
-        _depthBufferField.SetValue(this, 0);
+        _isInitialized = false;
     }
 
-    /// <summary>
-    /// Handles avalonia key down events, and sets the keyboard state
-    /// </summary>
-    /// <param name="e">The event</param>
-    private void KeyPressed(RawKeyEventArgs e)
+    protected override void OnKeyDown(KeyEventArgs e)
     {
         if (!IsEffectivelyVisible)
             return;
         
         KeyboardState.SetKey(e.Key, true);
     }
-
-    /// <summary>
-    /// Handles avalonia key up events, and sets the keyboard state
-    /// </summary>
-    /// <param name="e">The event</param>
-    private void KeyReleased(RawKeyEventArgs e)
+    
+    protected override void OnKeyUp(KeyEventArgs e)
     {
+        base.OnKeyUp(e);
         if (!IsEffectivelyVisible)
             return;
         
         KeyboardState.SetKey(e.Key, false);
     }
+
+    public bool HitTest(Point point) => Bounds.Contains(point);
 }
