@@ -4,7 +4,8 @@ OpenTKAvalonia is a simple wrapper to provide OpenTK OpenGL bindings for Avaloni
 the heavy lifting for you.
 
 This includes setting up the OpenGL bindings, setting up the aspect ratio so anything you draw looks as expected, 
-working around avalonia bug 6488 (where failing to reset the active texture causes all controls to become invisible),
+~~working around avalonia bug 6488 (where failing to reset the active texture causes all controls to become invisible)~~(seems to be fixed),
+working around avalonia issue [12680](https://github.com/AvaloniaUI/Avalonia/issues/12680) (where the init method is called twice), 
 providing events for Initialization, Teardown, and Render, and providing a KeyboardState API for detecting keyboard input.
 
 The library is somewhat work-in-progress but it currently functions for simple applications, and there is a sample included.
