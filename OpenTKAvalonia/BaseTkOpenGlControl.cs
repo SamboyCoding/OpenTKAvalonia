@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Diagnostics;
+using Avalonia;
 using Avalonia.Input;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
@@ -82,8 +83,8 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
     {
         if (_isInitialized)
         {
-            // workaround for avalonia issue #12680, so we dont initialize twice
-            Console.WriteLine("Calling OnOpenGlInit even tho its already initialized");
+            // workaround for avalonia issue #10371, so we dont initialize twice
+            Debug.WriteLine("Calling OnOpenGlInit even tho its already initialized");
             return;
         }
         //Initialize the OpenTK<->Avalonia Bridge
