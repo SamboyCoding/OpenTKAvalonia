@@ -53,26 +53,22 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
 
     protected sealed override void OnOpenGlRender(GlInterface gl, int fb)
     {
+        if (!IsEffectivelyVisible)
+        {
+            return;
+        }
+        
         //Update last key states
         KeyboardState.OnFrame();
         
         //Set up the aspect ratio so shapes aren't stretched.
-        //As avalonia is using this opengl instance internally to render the entire window, stuff gets messy, so we workaround that here
-        //to provide a good experience to the user.
-        // Not sure if this is needed anymore, seems to work fine without it
-        // int[] oldViewport = new int[4];
-        // GL.GetInteger(GetPName.Viewport, oldViewport);
         GL.Viewport(0, 0, (int) Bounds.Width, (int) Bounds.Height);
 
         //Tell our subclass to render
-        OpenTkRender();
-        
-        //Reset viewport after our fix above
-        // GL.Viewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
-        
-        //Workaround for avalonia issue #6488, set active texture back to 0
-        // same thing i dont think this is needed anymore
-        // GL.ActiveTexture(TextureUnit.Texture0);
+        if (Bounds.Width != 0 && Bounds.Height != 0)
+        {
+            OpenTkRender();
+        }
 
         //Schedule next UI update with avalonia
         Dispatcher.UIThread.Post(RequestNextFrameRendering, DispatcherPriority.Background);
@@ -84,7 +80,7 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
         if (_isInitialized)
         {
             // workaround for avalonia issue #10371, so we dont initialize twice
-            Debug.WriteLine("Calling OnOpenGlInit even tho its already initialized");
+            Console.WriteLine("Calling OnOpenGlInit even tho its already initialized");
             return;
         }
         //Initialize the OpenTK<->Avalonia Bridge
@@ -113,7 +109,6 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
     
     protected override void OnKeyUp(KeyEventArgs e)
     {
-        base.OnKeyUp(e);
         if (!IsEffectivelyVisible)
             return;
         
