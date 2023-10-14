@@ -19,26 +19,18 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
 
     private AvaloniaTkContext? _avaloniaTkContext;
 
-    private bool _isInitialized;
-
     /// <summary>
     /// OpenTkRender is called once a frame to draw to the control.
     /// You can do anything you want here, but make sure you undo any configuration changes after, or you may get weirdness with other controls.
     /// </summary>
-    protected virtual void OpenTkRender()
-    {
-        
-    }
+    protected abstract void OpenTkRender();
 
     /// <summary>
     /// OpenTkInit is called once when the control is first created.
     /// At this point, the GL bindings are initialized and you can invoke GL functions.
     /// You could use this function to load and compile shaders, load textures, allocate buffers, etc.
     /// </summary>
-    protected virtual void OpenTkInit()
-    {
-        
-    }
+    protected abstract void OpenTkInit();
 
     /// <summary>
     /// OpenTkTeardown is called once when the control is destroyed.
@@ -46,18 +38,10 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
     /// At best, they will do nothing, at worst, something could go wrong.
     /// You should use this function as a last chance to clean up any GL resources you have allocated - delete buffers, vertex arrays, programs, and textures.
     /// </summary>
-    protected virtual void OpenTkTeardown()
-    {
-        
-    }
+    protected abstract void OpenTkTeardown();
 
     protected sealed override void OnOpenGlRender(GlInterface gl, int fb)
-    {
-        if (!IsEffectivelyVisible)
-        {
-            return;
-        }
-        
+    {   
         //Update last key states
         KeyboardState.OnFrame();
         
@@ -77,26 +61,18 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
 
     protected sealed override void OnOpenGlInit(GlInterface gl)
     {
-        if (_isInitialized)
-        {
-            // workaround for avalonia issue #10371, so we dont initialize twice
-            Console.WriteLine("Calling OnOpenGlInit even tho its already initialized");
-            return;
-        }
         //Initialize the OpenTK<->Avalonia Bridge
         _avaloniaTkContext = new(gl);
         GL.LoadBindings(_avaloniaTkContext);
 
         //Invoke the subclass' init function
         OpenTkInit();
-        _isInitialized = true;
     }
 
     //Simply call the subclass' teardown function
     protected sealed override void OnOpenGlDeinit(GlInterface gl)
     {
         OpenTkTeardown();
-        _isInitialized = false;
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
