@@ -41,7 +41,7 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
     protected abstract void OpenTkTeardown();
 
     protected sealed override void OnOpenGlRender(GlInterface gl, int fb)
-    {   
+    {
         //Update last key states
         KeyboardState.OnFrame();
         
