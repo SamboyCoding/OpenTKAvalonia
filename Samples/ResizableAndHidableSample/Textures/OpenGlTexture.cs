@@ -27,11 +27,11 @@ namespace NonFullScreenSample.Textures
             //Convert ImageSharp's format into a byte array, so we can use it with OpenGL.
             List<byte> pixels = new(4 * image.Width * image.Height);
 
-            for (int y = 0; y < image.Height; y++)
+            for (var y = 0; y < image.Height; y++)
             {
                 var row = image.GetPixelRowSpan(y);
 
-                for (int x = 0; x < image.Width; x++)
+                for (var x = 0; x < image.Width; x++)
                 {
                     pixels.Add(row[x].R);
                     pixels.Add(row[x].G);

@@ -82,7 +82,7 @@ namespace BasicCubeSample
             GL.EnableVertexAttribArray(_shader.GetAttribLocation("aPosition"));
 
             //Configure texture coordinate structure
-            int texCoordLocation = _shader.GetAttribLocation("aTexCoord");
+            var texCoordLocation = _shader.GetAttribLocation("aTexCoord");
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(texCoordLocation);
 
@@ -138,7 +138,7 @@ namespace BasicCubeSample
         //Demonstrating use of the Avalonia keyboard state provided by OpenTKAvalonia to control the camera 
         private void DoUpdate()
         {
-            float effectiveSpeed = Speed;
+            var effectiveSpeed = Speed;
             
             if (KeyboardState.IsKeyDown(Key.LeftShift))
             {
@@ -184,10 +184,10 @@ namespace BasicCubeSample
             _brickTexture.Use(TextureUnit.Texture2);
 
             //3d projection matrices
-            Matrix4 model = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_modelRotationDegrees));
+            var model = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_modelRotationDegrees));
             // model *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-30));
-            Matrix4 view = Matrix4.LookAt(_cameraPosition, _cameraPosition + _cameraFront, _up);
-            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(_fov), (float) (Bounds.Width / Bounds.Height), 0.1f, 100.0f);
+            var view = Matrix4.LookAt(_cameraPosition, _cameraPosition + _cameraFront, _up);
+            var projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(_fov), (float) (Bounds.Width / Bounds.Height), 0.1f, 100.0f);
 
             _shader.SetMatrix4("model", model);
             _shader.SetMatrix4("view", view);
@@ -221,10 +221,10 @@ namespace BasicCubeSample
                 return;
         
             //Work out the change in position
-            Point pos = e.GetPosition(null);
+            var pos = e.GetPosition(null);
         
-            double deltaX = pos.X - _lastPos.X;
-            double deltaY = pos.Y - _lastPos.Y;
+            var deltaX = pos.X - _lastPos.X;
+            var deltaY = pos.Y - _lastPos.Y;
             _lastPos = pos;
         
             const float sensitivity = 0.05f;
@@ -253,7 +253,7 @@ namespace BasicCubeSample
         
         protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
         {
-            double scrollDelta = e.Delta.Y; //negative is out, positive is in
+            var scrollDelta = e.Delta.Y; //negative is out, positive is in
             _fov -= (float) scrollDelta; //therefore we subtract, because zooming in should decrease the fov
         }
 

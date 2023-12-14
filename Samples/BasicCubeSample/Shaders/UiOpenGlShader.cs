@@ -16,22 +16,22 @@ namespace BasicCubeSample.Shaders
 			//Read the shader source files
 
 			using StreamReader vertReader = new(vertexPath, Encoding.UTF8);
-			string? vertexShaderSource = vertReader.ReadToEnd();
+			var vertexShaderSource = vertReader.ReadToEnd();
 
 			using StreamReader fragReader = new(fragmentPath, Encoding.UTF8);
-			string? fragmentShaderSource = fragReader.ReadToEnd();
+			var fragmentShaderSource = fragReader.ReadToEnd();
 
 			//Create GL shaders for the shader source files
-			int vertexShader = GL.CreateShader(ShaderType.VertexShader);
+			var vertexShader = GL.CreateShader(ShaderType.VertexShader);
 			GL.ShaderSource(vertexShader, vertexShaderSource);
 
-			int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+			var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
 			GL.ShaderSource(fragmentShader, fragmentShaderSource);
 			
 			//Compile and error-check the vertex shader
 			GL.CompileShader(vertexShader);
 
-			string? infoLogVert = GL.GetShaderInfoLog(vertexShader);
+			var infoLogVert = GL.GetShaderInfoLog(vertexShader);
 			if (infoLogVert != string.Empty)
 			{
 				Console.Error.WriteLine($"UI: Error compiling vertex shader: {infoLogVert}");
@@ -40,7 +40,7 @@ namespace BasicCubeSample.Shaders
 			//Compile and error-check the fragment shader
 			GL.CompileShader(fragmentShader);
 
-			string? infoLogFrag = GL.GetShaderInfoLog(fragmentShader);
+			var infoLogFrag = GL.GetShaderInfoLog(fragmentShader);
 
 			if (infoLogFrag != string.Empty)
 			{
