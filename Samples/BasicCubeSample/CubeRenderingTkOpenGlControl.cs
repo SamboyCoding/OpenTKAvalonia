@@ -201,7 +201,7 @@ namespace BasicCubeSample
         }
         
         //The following four methods show how to use the Avalonia events for pointer and scroll input to allow moving the camera by clicking-and-dragging and scrolling to zoom
-        //It would appear pointer capture doesn't work, at least not as I would expect it to, which is unfortunate 
+        //It would appear pointer capture doesn't work, at least not as I would expect it to, which is unfortunate
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
             _isDragging = true;
