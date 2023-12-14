@@ -201,37 +201,36 @@ namespace BasicCubeSample
         }
         
         //The following four methods show how to use the Avalonia events for pointer and scroll input to allow moving the camera by clicking-and-dragging and scrolling to zoom
-        //It would appear pointer capture doesn't work, at least not as I would expect it to, which is unfortunate
-        
+        //It would appear pointer capture doesn't work, at least not as I would expect it to, which is unfortunate 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
             _isDragging = true;
             e.Pointer.Capture(this);
             _lastPos = e.GetPosition(null);
         }
-        
+
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
         {
             _isDragging = false;
         }
-        
+
         protected override void OnPointerMoved(PointerEventArgs e)
         {
             if (!_isDragging)
                 return;
-        
+
             //Work out the change in position
             var pos = e.GetPosition(null);
-        
+
             var deltaX = pos.X - _lastPos.X;
             var deltaY = pos.Y - _lastPos.Y;
             _lastPos = pos;
-        
+
             const float sensitivity = 0.05f;
-        
+
             //Yaw is a function of the change in X
             _yaw -= deltaX * sensitivity;
-        
+
             //Clamp pitch
             if (_pitch > 89.0f)
             {
@@ -246,11 +245,11 @@ namespace BasicCubeSample
                 //Pitch is a function of the change in Y
                 _pitch += deltaY * sensitivity;
             }
-        
+
             //Recalculate the camera front vector
             UpdateCameraFront();
         }
-        
+
         protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
         {
             var scrollDelta = e.Delta.Y; //negative is out, positive is in
