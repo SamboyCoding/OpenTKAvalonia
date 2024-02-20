@@ -131,8 +131,6 @@ namespace BasicCubeSample
             _shader?.Dispose();
             GL.UseProgram(0);
             _brickTexture.Dispose();
-            
-            Console.WriteLine("UI: OpenTK Teardown");
         }
 
         //Demonstrating use of the Avalonia keyboard state provided by OpenTKAvalonia to control the camera 

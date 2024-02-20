@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Input;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
@@ -23,14 +22,20 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
     /// OpenTkRender is called once a frame to draw to the control.
     /// You can do anything you want here, but make sure you undo any configuration changes after, or you may get weirdness with other controls.
     /// </summary>
-    protected abstract void OpenTkRender();
+    protected virtual void OpenTkRender()
+    {
+        
+    }
 
     /// <summary>
     /// OpenTkInit is called once when the control is first created.
     /// At this point, the GL bindings are initialized and you can invoke GL functions.
     /// You could use this function to load and compile shaders, load textures, allocate buffers, etc.
     /// </summary>
-    protected abstract void OpenTkInit();
+    protected virtual void OpenTkInit()
+    {
+        
+    }
 
     /// <summary>
     /// OpenTkTeardown is called once when the control is destroyed.
@@ -38,7 +43,10 @@ public abstract class BaseTkOpenGlControl : OpenGlControlBase, ICustomHitTest
     /// At best, they will do nothing, at worst, something could go wrong.
     /// You should use this function as a last chance to clean up any GL resources you have allocated - delete buffers, vertex arrays, programs, and textures.
     /// </summary>
-    protected abstract void OpenTkTeardown();
+    protected virtual void OpenTkTeardown()
+    {
+        
+    }
 
     protected sealed override void OnOpenGlRender(GlInterface gl, int fb)
     {
