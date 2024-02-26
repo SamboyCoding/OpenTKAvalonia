@@ -9,11 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="0.10.12" />
-      <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
-      <PackageReference Include="OpenTK.Graphics" Version="4.6.7" />
-      <PackageReference Include="OpenTK.Input" Version="4.6.7" />
-      <PackageReference Include="OpenTK.Windowing.Common" Version="4.6.7" />
+      <PackageReference Include="Avalonia" Version="11.0.9" />
+      <PackageReference Include="Avalonia.Desktop" Version="11.0.9" />
+      <PackageReference Include="OpenTK.Graphics" Version="4.8.2" />
+      <PackageReference Include="OpenTK.Input" Version="4.8.2" />
+      <PackageReference Include="OpenTK.Windowing.Common" Version="4.8.2" />
     </ItemGroup>
 
 </Project>
